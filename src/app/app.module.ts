@@ -49,7 +49,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     MatSnackBarModule,
     HttpClientModule,
-    AgGridModule.withComponents([]),
+    AgGridModule.withComponents([BtnHandlersRenderComponent]),
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'dashboard', component: DashboardComponent },
