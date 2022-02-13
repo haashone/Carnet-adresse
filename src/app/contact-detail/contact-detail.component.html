@@ -1,0 +1,129 @@
+<app-nav-bar></app-nav-bar>
+<mat-card>
+    <mat-card-title>Modification de carnet</mat-card-title>
+    <mat-card-header>
+        <mat-card-subtitle>Données contact</mat-card-subtitle>
+    </mat-card-header>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <mat-card-content>
+            <mat-grid-list cols="2" rowHeight="80px">
+                <mat-grid-tile>
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Prénom</mat-label>
+                        <input matInput formControlName="lastName">
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Nom</mat-label>
+                        <input matInput formControlName="firstName">
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Date de naissance</mat-label>
+                <input matInput type="date" formControlName="birthDate">
+            </mat-form-field>
+
+        </mat-card-content>
+        <div *ngFor="let address of addresses.controls; let i = index">
+            <div class="type-holder">
+                <div class="type-title">
+                    <mat-card-header>
+                        <mat-card-subtitle>Adresse</mat-card-subtitle>
+                    </mat-card-header>
+                </div>
+                <div class="delete-address">
+                    <ng-container *ngIf="contactForm.controls.addresses.value.length>1">
+                        <button (click)="deleteAdress(i)" color="warn" mat-icon-button>
+                            <mat-icon>delete_forever</mat-icon>
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+            <div [formGroup]="address">
+                <mat-grid-list cols="3" rowHeight="90px">
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Type d'adresse</mat-label>
+                            <mat-select #choosedType (selectionChange)="selected()" formControlName="type" required>
+                                <mat-option value=""></mat-option>
+
+                                <ng-container *ngFor="let type of typeList">
+                                    <mat-option *ngIf="choosedType.value === type.name || !isSelected(type.name)"
+                                        value="{{type.name}}">
+                                        {{type.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Pays</mat-label>
+                            <mat-select formControlName="country" required>
+                                <mat-option *ngFor="let country of countries" [value]="country">
+                                    {{country}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Ville</mat-label>
+                            <input matInput formControlName="city">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="3" rowHeight="90px">
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Code Postal</mat-label>
+                            <input matInput formControlName="zipCode">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Num Rue</mat-label>
+                            <input matInput formControlName="streetNumber">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Rue</mat-label>
+                            <input matInput formControlName="street">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Téléphone</mat-label>
+                    <input matInput formControlName="phone">
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Commentaire</mat-label>
+                    <textarea matInput formControlName="comment"> </textarea>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+        <ng-container *ngIf="addresses.value.length < typeList.length">
+            <button type="button" mat-button color="primary" (click)="addAddressGroup()">
+                <mat-icon>add_circle_outline</mat-icon>
+                Nouvelle adresse
+            </button>
+        </ng-container>
+
+        <mat-card-actions>
+            <button mat-raised-button type="submit" color="primary">Enregistrer</button>
+
+            <button mat-raised-button color="warn" type="button" (click)="clearForm()">Annuler les
+                modifications</button>
+
+        </mat-card-actions>
+    </form>
+</mat-card>
